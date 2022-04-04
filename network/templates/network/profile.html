@@ -1,0 +1,151 @@
+{% extends "network/layout.html" %}
+
+{% block title %}
+    Profile: {{ profile.username }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="profile_header_info">
+
+        <p><span style="font-weight:bolder;">User:</span> {{ profile.username }}</p>
+
+        <p><span style="font-weight: bold;">Followers:</span> {{ followers }}</p>
+
+        <p><span style="font-weight:bold;">Following:</span> {{ following }}</p>
+
+        {% if user.is_authenticated %}
+
+            {% if is_not_self %}
+
+                {% if already_following %}
+
+                    <form action="{% url 'profile' profile.id %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-primary" type="submit" name="unfollow" value="Unfollow">
+                    </form>
+
+                {% else %}
+
+                    <form action="{% url 'profile' profile.id %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-primary" type="submit" name="follow" value="Follow">
+                    </form>
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+
+    <!-- Display pagination handler -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;  First  </a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">  Previous  </a></li>
+            {% endif %}
+
+            <li class="page-link" id="middle-link" style="pointer-events:none; color: black;">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">  Next  </a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">  Last  &raquo;  </a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+
+    <!-- Display posts -->
+    {% for post in page_obj %}
+
+        <div class="display_post">
+
+            <div class="display_block">
+
+                <h5><a href="{% url 'profile' post.poster.id %}">{{ post.poster }}</a></h5>
+
+                <br>
+                <!-- post id to be able to pass as JSON to javascript function -->
+                {{ post.id | json_script:"post-id-data" }}
+
+                <p id="post_content">{{ post.post_content }}</p>
+
+                <p>{{ post.datetime }}</p>
+
+                {% if user.is_authenticated %}
+
+                    <div class="liking_section">
+
+                        {% if request.user in post.likers.all %}
+
+                                <p><i class="fas fa-heart heart_unlike"></i>  {{ post.likes }}</p>
+
+                        {% else %}
+
+                                <p><i class="far fa-heart heart_like"></i>  {{ post.likes }}</p>
+
+                        {% endif %}
+
+                    </div>
+
+                {% else %}
+
+                    <p><i class="fas fa-heart"></i>  {{ post.likes }}</p>
+
+                {% endif %}
+
+                {% if post.poster == request.user %}
+
+                    <button class="btn btn-primary edit" type="button">Edit Post</button>
+
+                {% endif %}
+
+            </div>
+
+            <div class="form-group edit_post_form_div">
+
+                <h5>Edit Post</h5>
+
+                <form action="{% url 'edit' %}" method="POST">
+                    {% csrf_token %}
+                    <textarea name="edit_post_textarea" id="edit_post_textarea" rows="3" cols="140" placeholder="Edit Post...">{{ post.post_content }}</textarea>
+                    <!-- post id to be able to pass as JSON to javascript function -->
+                    {{ post.id | json_script:"post-id-data" }}
+                    <br>
+                    <input type="submit" class="btn btn-primary edit_button" name="edit_button" value="Save">
+                </form>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+    <!-- Display pagination handler -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;  First  </a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">  Previous  </a></li>
+            {% endif %}
+
+            <li class="page-link" id="middle-link" style="pointer-events:none; color: black;">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">  Next  </a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">  Last  &raquo;  </a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+
+{% endblock %}

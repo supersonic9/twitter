@@ -1,0 +1,129 @@
+#new_post_form_div {
+    border: 1px solid grey;
+    margin: 10px;
+    padding: 15px;
+}
+
+#new_post_form_div:hover {
+    box-shadow: inset 0 0 0 1px #047afb;
+}
+
+#new_post_form_div #new_post_button {
+    margin: 7px 0 7px 0;
+}
+
+#new_post_form_div textarea {
+    max-width: 99%;
+}
+
+#new_post_form_div textarea:hover {
+    box-shadow: inset 0 0 0 1px #047afb;
+}
+
+.display_post {
+    border: 1px solid grey;
+    margin: 10px;
+    padding: 15px;
+}
+
+.display_post:hover {
+    box-shadow: inset 0 0 0 1px #047afb;
+}
+
+#post_content {
+    color: black;
+    font-weight: bold;
+}
+
+.middle-link {
+    color: grey;
+}
+
+.edit_post_form_div {
+    display: none;
+    animation: appear 1s forwards paused;
+}
+
+.edit_post_form_div textarea {
+    max-width: 99%;
+}
+
+/* animation for displaying textbox to edit a post - applies to .edit_post_form_div */
+@keyframes appear {
+    0% {
+        box-shadow: inset 0 0 0 5px #047afb;
+        opacity: 0;
+    }
+    25% {
+        background-color: white;
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        background-color: white;
+    }
+}
+
+.fa-heart {
+    color: red;
+    font-size: 1.3em;
+    animation: like_unlike 0.3s forwards paused;
+}
+
+/* animation for liking / unliking a post - applies to .fa_heart */
+@keyframes like_unlike {
+    0% {
+        font-size: 1.3em;
+    }
+    50% {
+        font-size: 2.4em;
+    }
+    100% {
+        font-size: 1.3em;
+    }
+}
+
+.heart_like:hover {
+    color: red;
+    font-weight: bold;
+}
+
+.heart_unlike:hover{
+    color: red;
+    font-weight: lighter;
+}
+
+.display_block {
+    animation: redisplay_edit 0.7s forwards paused;
+}
+
+/* animation for re-displaying an edited post - applies to .display_block */
+@keyframes redisplay_edit {
+    0% {
+        opacity: 1;
+    }
+    1% {
+        height: 2px;
+        opacity: 0;
+    }
+    80% {
+        opacity: 0;
+    }
+    99% {
+        height: 214px;
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        height: 100%;
+    }
+}
+
+.profile_header_info {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.pagination {
+    margin: 10px;
+}
