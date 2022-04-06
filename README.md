@@ -10,5 +10,5 @@ python manage.py runserver
 - create an account, login and logout
 - logged in users can write new posts, follow other users, edit posts and like / unlike posts
 - all users (regardless of logged in status) can see all posts, all posts by a particular user
-- other features include pagination and editing without reloading the page
+- other features include pagination + editing of posts without reloading the page utilising AJAX
 
